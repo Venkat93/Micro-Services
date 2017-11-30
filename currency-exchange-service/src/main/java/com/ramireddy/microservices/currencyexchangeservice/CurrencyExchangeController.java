@@ -1,0 +1,26 @@
+package com.ramireddy.microservices.currencyexchangeservice;
+
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+ 
+
+@RestController
+public class CurrencyExchangeController {
+	
+	@Autowired
+	private Environment environment;
+	
+	
+	@GetMapping("/currency-exchange/from/{from}/to/{to}")
+	public CurrencyExchangeBean exchange(@PathVariable String from,@PathVariable String to) {
+		CurrencyExchangeBean ceBean=new CurrencyExchangeBean(from,to,65);
+		ceBean.setPort(Integer.parseInt(environment.getProperty("server.port")));
+		return ceBean;
+	}
+}
